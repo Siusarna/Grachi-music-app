@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - 10.16.0
+script: 'true'
+deploy:
+  provider: heroku
+  app: grachi-music-app
+  api_key:
+    secure: uB/aPt4PDuQ94c13Hg/0H5PeP6fszKUXD8Eokagh8cLwvbUtAMbmzkodQe+OTA+IRFbw6qwaF3QnaIyW1cY0u+12WnuE1nETkLxPn5VT60Qd4jp6K9tvNNS/zpBnpqLJj3yLQ2D4vQ+H/s4/xhJq2RHk8tD31ROnqdEC5OqfegMBLV9tOCw/Q1pp5z+unxGFC80bbROwthMD7OAKYVe0GqyZSDbB/1rM/Pwk1hHPq0kNNBFAcBGVFf2IedTT5Ww1Rqvv0jVS5EeFm+fgCJjVXzOCGkARdIwTE9ABQnpaqbU5xpuP/aSDut7gajZXmIDoomS857PXX9rp7spVzpbZOyCULRzB/8rcD4coUg0P0zKn2STNU0qN9uZOCHn+39j99csuqTsC2XvBmKQkhDRihzHQOO4vv1xql/zvGDlUzx93Fp9qCyLoPuDBVIWmoRBpJi1T4eacLjVb98mor0+ahM3xhPsT3SmQVUv04Bb272Iji2Ek6qvw3jv35koU5CNUv9+mzxu93diF3XXkYsOQ+Rlq/97gt5cHrNufXdS/d1zBCvqGDeOW1Yu2nWfsBa4EwTL97iiIad/Wz4Ptr2b6AaTLBFo74HCcVaF5izUbh2ItnXU0w4SabSjHH2jpKLoB26nbNbLYT3Pr3hNE67chYAzh2h3REEpKVYogxMvRVxI=
