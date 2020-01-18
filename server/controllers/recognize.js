@@ -19,7 +19,7 @@ const makeRequest = filename => {
     return request(options)
 };
 
-const searchByRecognize = (req, res) => {
+const searchMusicByUserFile = (req, res) => {
     makeRequest(req.file.originalname)
         .then ((result) => {
             res.json (JSON.parse(result));
@@ -30,5 +30,5 @@ const searchByRecognize = (req, res) => {
 };
 
 module.exports = {
-    searchByRecognize
+    searchMusicByUserFile
 };

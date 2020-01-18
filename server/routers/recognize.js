@@ -18,5 +18,5 @@ const upload = multer ({
 });
 
 module.exports = app => {
-    app.post ('/api/recognize', upload.single ('recognize'), controllerForRecognize.searchByRecognize);
+    app.post ('/api/recognize', upload.single ('recognize'), controllerForRecognize.searchMusicByUserFile);
 };
