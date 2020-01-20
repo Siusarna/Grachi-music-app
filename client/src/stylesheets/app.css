@@ -30,3 +30,23 @@ html, body {
 .col-xs-2 .btn-elegant {
     background-color: #3a3a3a !important;
 }
+
+.counter {
+    width: 10rem;
+    color: #cad2cf;
+    background-color: #3a3a3a;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.app-color {
+    color: #cad2cf;
+}
+
+.normalize-width {
+    width: 30rem !important;
+}

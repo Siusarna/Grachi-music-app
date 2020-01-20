@@ -8,16 +8,22 @@ import {
   MDBCol,
   MDBBtn
 } from "mdbreact";
+import { start } from "../redux/actions";
+import {connect} from 'react-redux';
 
-const Intro = () => {
+const Intro = ({start}) => {
   const [isStarter, setPage] = useState(true);
   const showInstructions = () => {
     setPage(!isStarter);
     console.log("done");
   };
+  const startGame = () => {
+    console.log('heh');
+    start(true);
+  }
   const Buttons = [
     { name: isStarter ? "Instructions" : "Start Page", func: showInstructions },
-    { name: "Start", func: "startGame" }
+    { name: "Start", func: startGame }
   ];
   return (
     <MDBContainer className="d-flex align-self-center flex-column">
@@ -56,4 +62,8 @@ const Intro = () => {
   );
 };
 
-export default Intro;
+const mapDispatchToProps = {
+  start
+};
+
+export default connect(null, mapDispatchToProps)(Intro);
