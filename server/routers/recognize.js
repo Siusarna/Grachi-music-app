@@ -1,10 +1,10 @@
 const multer = require ('multer');
-const controllerForRecognize = require ('../controllers/recognize');
+const recognizeMusic = require ('../controllers/recognize');
 
 const makeConfigForMulter = () => {
     return {
         filename: (req, file, cb) => {
-            cb (null, file.originalname);
+            cb (null, req.fingerprint.hash + file.originalname);
         },
         destination: (req, file, cb) => {
             cb (null, 'uploads');
@@ -18,6 +18,6 @@ const upload = multer ({
 });
 
 module.exports = app => {
-    app.post ('/api/recognize', upload.single ('recognize'), controllerForRecognize.searchMusicByUserFile);
-    app.post ('/api/recognizeByHumming', upload.single ('recognize'), controllerForRecognize.searchMusicByHumming);
+    app.post ('/api/recognize', upload.single ('recognize'), recognizeMusic.searchMusicByUserFile, recognizeMusic.deleteFile);
+    app.post ('/api/recognizeByHumming', upload.single ('recognize'), recognizeMusic.searchMusicByHumming, recognizeMusic.deleteFile);
 };

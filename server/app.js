@@ -1,7 +1,10 @@
-const express = require('express')
+const express = require ('express');
+const fingerprint = require('express-fingerprint');
 
 const app = express ();
-require('./routers/index')(app);
+app.use (fingerprint());
+require ('./routers/index') (app);
+
 
 const PORT = process.env.PORT || 3000;
 

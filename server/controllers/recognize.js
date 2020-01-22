@@ -18,20 +18,24 @@ const makeRequestToAudd = (filename, uri) => {
     return request (options);
 };
 
-const parseAnswerWithPreview = (result) => {
+const parseAnswerWithPreview = ({result}) => {
+    if (!result) {
+        return {};
+    }
     return {
-        artist: result.result.artist,
-        title: result.result.title,
-        preview: result.result.deezer.preview
+        artist: result.artist,
+        title: result.title,
+        preview: result.deezer.preview
     };
 };
 
-const searchMusicByUserFile = (req, res) => {
+const searchMusicByUserFile = (req, res, next) => {
     const uri = 'https://api.audd.io/';
-    makeRequestToAudd (req.file.originalname, uri)
+    makeRequestToAudd (req.fingerprint.hash + req.file.originalname, uri)
         .then ((result) => {
             const parsedResult = parseAnswerWithPreview (JSON.parse (result));
             res.json (parsedResult);
+            next ();
         })
         .catch (err => {
             res.status (400).json ({message: err.message});
@@ -40,7 +44,6 @@ const searchMusicByUserFile = (req, res) => {
 
 const makeRequestToDeezer = async (title, artist) => {
     const uri = `https://api.deezer.com/search?q=title:"${title}" artist:"${artist}"`;
-    console.log (uri);
     const options = {
         uri,
         method: 'GET'
@@ -49,6 +52,9 @@ const makeRequestToDeezer = async (title, artist) => {
 };
 
 const searchPreviewInDeezerByTitle = (title, arrWithOnlyOneAnswer) => {
+    if (!arrWithOnlyOneAnswer.length) {
+        return;
+    }
     let i = 0;
     while (arrWithOnlyOneAnswer[i].title.toLowerCase () !== title.toLowerCase () && i < arrWithOnlyOneAnswer.length - 1) {
         i++;
@@ -65,12 +71,12 @@ const makeRequestAndSearchPreviewInAnswer = async element => {
 };
 
 
-const parseAnswerForRecognizeHumming = async (result) => {
+const parseAnswerForRecognizeHumming = async ({result}) => {
     const arrayOfResult = [];
-    if(!result.result){
+    if (!result) {
         return;
     }
-    for (const obj of result.result.list) {
+    for (const obj of result.list) {
         const element = {
             artist: obj.artist,
             title: obj.title
@@ -81,14 +87,15 @@ const parseAnswerForRecognizeHumming = async (result) => {
     return arrayOfResult;
 };
 
-const searchMusicByHumming = (req, res) => {
+const searchMusicByHumming = (req, res, next) => {
     const uri = 'https://api.audd.io/recognizeWithOffset/';
-    makeRequestToAudd (req.file.originalname, uri)
+    makeRequestToAudd (req.fingerprint.hash + req.file.originalname, uri)
         .then ((result) => {
             return parseAnswerForRecognizeHumming (JSON.parse (result));
         })
         .then ((parsedResult) => {
             res.json (parsedResult);
+            next ();
         })
         .catch (err => {
             console.log (err);
@@ -97,7 +104,15 @@ const searchMusicByHumming = (req, res) => {
 
 };
 
+const deleteFile = (req, res) => {
+    fs.unlink (`./uploads/${req.fingerprint.hash + req.file.originalname}`, (err) => {
+        if (err) throw err;
+        console.log ('file was deleted');
+    });
+};
+
 module.exports = {
     searchMusicByUserFile,
-    searchMusicByHumming
+    searchMusicByHumming,
+    deleteFile
 };
