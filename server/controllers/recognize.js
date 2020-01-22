@@ -22,11 +22,11 @@ const parseAnswerWithPreview = ({result}) => {
     if (!result) {
         return {};
     }
-    return {
+    return [{
         artist: result.artist,
         title: result.title,
         preview: result.deezer.preview
-    };
+    }];
 };
 
 const searchMusicByUserFile = (req, res, next) => {
