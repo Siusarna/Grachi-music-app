@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { MDBBtn, MDBRow, MDBCol } from "mdbreact";
-import AudioRec from "react-audio-recorder";
 import MicRecorder from "mic-recorder-to-mp3";
-import { ReactMic } from "react-mic";
+import { ReactMic } from "@cleandersonlobo/react-mic";
+import { songResponse } from "../redux/actions";
+import {connect} from 'react-redux';
 
-function getWindowDimensions() {
+
+const getWindowDimensions = () => {
   const { innerWidth: width, innerHeight: height } = window;
   return {
     width,
@@ -12,24 +14,32 @@ function getWindowDimensions() {
   };
 }
 
-const Recorder = () => {
-  const Mp3Recorder = new MicRecorder({ bitRate: 128 });
+const Recorder = ({songResponse}) => {
   const [isRecording, setRecording] = useState(false);
-  const [isBlocked, setBlocked] = useState(false);
-  const [Recorded, setRecorded] = useState("");
+  const [Recorded, setRecorded] = useState({});
   const onStop = recordedBlob => {
     setRecorded(recordedBlob);
   };
-  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions()
+  );
 
   useEffect(() => {
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
     }
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const onFinish = async () => {
+    const fd = new FormData();
+    fd.append("recognize", Recorded.blob, "recognize.mp3");
+    songResponse(await fetch("http://localhost:3000/api/recognize", {
+      method: "POST",
+      body: fd
+    }).then(e => e.json()));
+  }
   return (
     <>
       <MDBCol xs={1} className="align-self-center">
@@ -39,6 +49,7 @@ const Recorder = () => {
           onStop={onStop}
           strokeColor="#FFF"
           backgroundColor="#3a3a3a"
+          mimeType="audio/mp3"
           width={windowDimensions.width > 840 ? "640" : "300"}
         />
       </MDBCol>
@@ -53,8 +64,8 @@ const Recorder = () => {
         <MDBBtn
           className="stable-width"
           color="elegant"
-          onClick={e => setRecording(!isRecording)}
-          disabled={isRecording || !Recorded ? true : false}
+          onClick={onFinish}
+          disabled={!(!isRecording && Recorded) ? true : false}
         >
           <h4 className="mb-0">Finish</h4>
         </MDBBtn>
@@ -63,4 +74,8 @@ const Recorder = () => {
   );
 };
 
-export default Recorder;
+const mapDispatchToProps = {
+  songResponse
+};
+
+export default connect(null, mapDispatchToProps)(Recorder);
