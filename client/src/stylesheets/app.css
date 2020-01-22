@@ -46,7 +46,24 @@ html, body {
 .app-color {
     color: #cad2cf;
 }
-/* 
-.normalize-width {
-    width: 30rem !important;
-} */
+
+.rounded-borders { 
+    border-radius: 100px;
+}
+
+.text-blacktheme {
+    background-color: #3d4146 !important;
+    color: #fff !important;
+}
+
+.texter-width {
+    width: 35rem !important;
+}
+
+.mt-8 {
+    margin-top: 8rem !important;
+}
+
+.mt-10 {
+    margin-top: 5rem !important;
+}
