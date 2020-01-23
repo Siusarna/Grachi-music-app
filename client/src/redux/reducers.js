@@ -6,11 +6,11 @@ const game = (state = {status: false, player: 0, server: 0, games: 1, round: 1, 
     case START:
       return {...state,...action.payload.status};
     case GUESSED:
-      return {...state, server: state.server + 1, games: state.games + 1}
+      return {...state, server: state.server + 1, games: state.games + 1, round: 1}
     case GIVE_CHANCE: 
       return {...state, round: state.round + 1}
     case FINISH:
-      return {...state, player: state.player + 1, games: state.games + 1}
+      return {...state, player: state.player + 1, games: state.games + 1, round: 1}
     case END: 
       return {...state, results: true}
     default:

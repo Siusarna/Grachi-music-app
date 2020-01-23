@@ -29,7 +29,7 @@ const Game = ({ songs, game }) => {
           Game {games}, Round {round}
         </h2>
       </MDBRow>
-      {received ? <Guess data={data}></Guess> : <ChooseRecord></ChooseRecord>}
+      {received ? <Guess data={data} round={round}></Guess> : <ChooseRecord></ChooseRecord>}
       {games >= 3 ? (
         <MDBRow className="justify-content-center mt-4">
           <MDBBtn className="stable-width" color="elegant">

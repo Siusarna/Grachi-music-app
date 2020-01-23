@@ -33,14 +33,19 @@ const Recorder = ({songResponse, addToHistory, apiQuery}) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const onFinish = async () => {
+  const onFinish = async ({target}) => {
+    if (target.tag = 'h4') {
+      target = target.parentElement
+    }
+    target.children[0].innerText = "Waiting";
+    target.disabled = true;
     const fd = new FormData();
     fd.append("recognize", Recorded.blob, "recognize.mp3");
     const url = apiQuery === 'sound' ? '/api/recognize' : '/api/recognizeByHumming';
-    const data = await fetch(`http://localhost:3000/${url}`, {
+    const data = await fetch(`http://localhost:3000${url}`, {
       method: "POST",
       body: fd
-    }).then(e => e.json());
+    }).then(e => e.json()).catch(err => console.log(err));
     songResponse(data);
     if(data) {
     addToHistory(data);
