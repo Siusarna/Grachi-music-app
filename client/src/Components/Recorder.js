@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { MDBBtn, MDBRow, MDBCol } from "mdbreact";
-import MicRecorder from "mic-recorder-to-mp3";
 import { ReactMic } from "@cleandersonlobo/react-mic";
-import { songResponse } from "../redux/actions";
+import { songResponse, addToHistory } from "../redux/actions";
 import {connect} from 'react-redux';
 
 
@@ -14,11 +13,13 @@ const getWindowDimensions = () => {
   };
 }
 
-const Recorder = ({songResponse}) => {
+const Recorder = ({songResponse, addToHistory, apiQuery}) => {
   const [isRecording, setRecording] = useState(false);
   const [Recorded, setRecorded] = useState({});
+  const [isFinished, setFinished] = useState(false);
   const onStop = recordedBlob => {
     setRecorded(recordedBlob);
+    setFinished(true);
   };
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()
@@ -35,10 +36,15 @@ const Recorder = ({songResponse}) => {
   const onFinish = async () => {
     const fd = new FormData();
     fd.append("recognize", Recorded.blob, "recognize.mp3");
-    songResponse(await fetch("http://localhost:3000/api/recognize", {
+    const url = apiQuery === 'sound' ? '/api/recognize' : '/api/recognizeByHumming';
+    const data = await fetch(`http://localhost:3000/${url}`, {
       method: "POST",
       body: fd
-    }).then(e => e.json()));
+    }).then(e => e.json());
+    songResponse(data);
+    if(data) {
+    addToHistory(data);
+    }
   }
   return (
     <>
@@ -65,7 +71,7 @@ const Recorder = ({songResponse}) => {
           className="stable-width"
           color="elegant"
           onClick={onFinish}
-          disabled={!(!isRecording && Recorded) ? true : false}
+          disabled={(!isRecording && isFinished) ? false : true}
         >
           <h4 className="mb-0">Finish</h4>
         </MDBBtn>
@@ -75,7 +81,8 @@ const Recorder = ({songResponse}) => {
 };
 
 const mapDispatchToProps = {
-  songResponse
+  songResponse,
+  addToHistory
 };
 
 export default connect(null, mapDispatchToProps)(Recorder);

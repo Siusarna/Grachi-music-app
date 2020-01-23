@@ -5,16 +5,17 @@ import Game from "./Components/Game";
 import {connect} from 'react-redux'
 
 
-const App = ({status}) => {
+const App = ({game}) => {
+  console.log(game);
   return (
     <div className="cover-full">
-      {!status.game ? <Game /> : <Intro className="" />}
+      {!game.status ? <Game /> : <Intro className="" />}
     </div>
   );
 };
 
-const mapStateToProps = (status) => ({
-  status
+const mapStateToProps = (game) => ({
+  game
 });
 
 export default connect(mapStateToProps)(App);
