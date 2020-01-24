@@ -107,7 +107,6 @@ const searchMusicByHumming = (req, res, next) => {
 const deleteFile = (req, res) => {
     fs.unlink (`./uploads/${req.fingerprint.hash + req.file.originalname}`, (err) => {
         if (err) throw err;
-        console.log ('file was deleted');
     });
 };
 
