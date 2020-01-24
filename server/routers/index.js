@@ -6,3 +6,4 @@ module.exports = app => {
     routeForSearchByRecognize(app);
     searchByText(app);
 };
+
