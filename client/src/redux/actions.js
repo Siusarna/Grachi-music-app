@@ -7,10 +7,11 @@ export const END = 'END';
 export const GUESS_END = "GUESS_END"
 export const ADD_TO_HISTORY = "ADD_TO_HISTORY"
 export const CLEAR_HISTORY = "CLEAR_HISTORY"
+export const START_OVER = "START_OVER"
+export const PENDING_STATUS = "PENDING_STATUS"
 
 export const start = (status) => ({
-    type: START,
-    payload: {status}
+    type: START
 })
 
 export const songResponse = (data) => ({
@@ -41,4 +42,12 @@ export const guessEnd = () => ({
 export const addToHistory = (data) => ({
     type: ADD_TO_HISTORY,
     payload: data
+})
+
+export const startOver = () => ({
+    type: START_OVER
+}) 
+
+export const pendingStatus = () => ({
+    type: PENDING_STATUS
 })

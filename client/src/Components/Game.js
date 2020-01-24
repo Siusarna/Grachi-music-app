@@ -3,10 +3,13 @@ import { MDBContainer, MDBRow, MDBCol, MDBBtn } from "mdbreact";
 import ChooseRecord from "./ChooseRecord";
 import { connect } from "react-redux";
 import Guess from "./Guess";
+import {end} from "../redux/actions"
+import Switcher from "./Switcher";
+import Results from "./Results";
 
-const Game = ({ songs, game }) => {
+const Game = ({ songs, game, end }) => {
   console.log(game);
-  const { player, server, games, round } = game;
+  const { player, server, games, round, results } = game;
   const { data, received } = songs;
   return (
     <MDBContainer className="app-color">
@@ -29,16 +32,7 @@ const Game = ({ songs, game }) => {
           Game {games}, Round {round}
         </h2>
       </MDBRow>
-      {received ? <Guess data={data} round={round}></Guess> : <ChooseRecord></ChooseRecord>}
-      {games >= 3 ? (
-        <MDBRow className="justify-content-center mt-4">
-          <MDBBtn className="stable-width" color="elegant">
-            <h4 className="mb-0">Show Results</h4>
-          </MDBBtn>
-        </MDBRow>
-      ) : (
-        ""
-      )}
+      {results ? <Results player={player} server={server} /> : <Switcher data={data} round={round} games={games} received={received} end={end}></Switcher>}
     </MDBContainer>
   );
 };
@@ -48,4 +42,8 @@ const mapStateToProps = ({ songs, game }) => ({
   game
 });
 
-export default connect(mapStateToProps)(Game);
+const mapDispatchToProps = {
+  end
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);

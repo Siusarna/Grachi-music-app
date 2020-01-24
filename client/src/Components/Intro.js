@@ -9,18 +9,16 @@ import {
   MDBBtn
 } from "mdbreact";
 import { start } from "../redux/actions";
-import {connect} from 'react-redux';
+import { connect } from "react-redux";
 
-const Intro = ({start}) => {
+const Intro = ({ start }) => {
   const [isStarter, setPage] = useState(true);
   const showInstructions = () => {
     setPage(!isStarter);
-    console.log("done");
   };
   const startGame = () => {
-    console.log('heh');
     start(true);
-  }
+  };
   const Buttons = [
     { name: isStarter ? "Instructions" : "Start Page", func: showInstructions },
     { name: "Start", func: startGame }
@@ -28,7 +26,9 @@ const Intro = ({start}) => {
   return (
     <MDBContainer className="d-flex align-self-center flex-column">
       <MDBRow className="justify-content-center mx-0">
-        <MDBCard className={`${isStarter ? 'animate-main' : ''} to-normal-size`}>
+        <MDBCard
+          className={`${isStarter ? "animate-main" : ""} to-normal-size`}
+        >
           <MDBCardTitle>
             <h2 className="h2-responsive text-center font-weight-normal pt-4 pr-2 pl-2">
               {isStarter ? `Welcome to Music-Akinator App!` : `Instructions`}
@@ -49,8 +49,8 @@ const Intro = ({start}) => {
         {Buttons.map((elem, i) => (
           <MDBCol xs="2" key={i}>
             <MDBBtn
-            className="stable-width"
-            color='elegant'
+              className="stable-width"
+              color="elegant"
               onClick={elem.func}
             >
               <h4 className="mb-0">{elem.name}</h4>

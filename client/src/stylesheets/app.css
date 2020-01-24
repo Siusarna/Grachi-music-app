@@ -67,3 +67,14 @@ html, body {
 .mt-10 {
     margin-top: 5rem !important;
 }
+
+.card-header-black {
+    background-color: #3a3a3a !important;
+}
+.card-body-black {
+    background-color: #383838 !important;
+}
+
+.audio-width {
+    width: 17rem;
+}

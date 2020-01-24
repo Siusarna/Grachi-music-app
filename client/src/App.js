@@ -9,12 +9,12 @@ const App = ({game}) => {
   console.log(game);
   return (
     <div className="cover-full">
-      {!game.status ? <Game /> : <Intro className="" />}
+      {game.status ? <Game /> : <Intro />}
     </div>
   );
 };
 
-const mapStateToProps = (game) => ({
+const mapStateToProps = ({game}) => ({
   game
 });
 
