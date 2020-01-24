@@ -2,6 +2,7 @@ const express = require ('express');
 const fingerprint = require('express-fingerprint');
 
 const app = express ();
+app.use(express.json());
 app.use (fingerprint());
 require ('./routers/index') (app);
 
