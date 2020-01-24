@@ -3,11 +3,11 @@ const fingerprint = require('express-fingerprint');
 
 const app = express ();
 app.use(express.json());
-require ('./routes/index.js') (app);
+app.use(fingerprint());
+require ('./routes/index') (app);
 
 
 const PORT = process.env.PORT || 3000;
-
 
 const start = async () => {
     try {
