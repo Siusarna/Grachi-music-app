@@ -11,7 +11,7 @@ const Texter = ({ songResponse, addToHistory, pendingStatus, songs }) => {
     const button = e.target.lastChild.children[0];
     button.children[0].innerText = "Waiting";
     const obj = { data: e.target.elements[0].value };
-    const data = await fetch(`http://localhost:3000/api/search`, {
+    const data = await fetch(`/api/search`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(obj)

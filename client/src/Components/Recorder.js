@@ -42,7 +42,7 @@ const Recorder = ({songResponse, addToHistory, apiQuery, pendingStatus, songs}) 
     const fd = new FormData();
     fd.append("recognize", Recorded.blob, "recognize.mp3");
     const url = apiQuery === 'sound' ? '/api/recognize' : '/api/recognizeByHumming';
-    const data = await fetch(`http://localhost:3000${url}`, {
+    const data = await fetch(url, {
       method: "POST",
       body: fd
     }).then(e => e.json()).catch(err => console.log(err));
