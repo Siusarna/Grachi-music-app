@@ -1,11 +1,16 @@
 const express = require ('express');
-const fingerprint = require('express-fingerprint');
+const fingerprint = require ('express-fingerprint');
+const path = require ('path');
 
 const app = express ();
-app.use(express.json());
-app.use (fingerprint());
+app.use (express.json ());
+app.use (fingerprint ());
 require ('./routers/index') (app);
 
+app.use (express.static ('client/build'));
+app.get ('*', (req, res) => {
+    res.sendFile (path.join (__dirname, 'client', 'build', 'index.html'));
+});
 
 const PORT = process.env.PORT || 3000;
 
