@@ -57,7 +57,7 @@ const parseAnswer = async(body) => {
 }
 
 const searchMusicByLyrics = (req, res) => {
-  findByAudd(req.body)
+  findByAudd(req.body.data)
   .then((data) => {
     //console.log(JSON.parse(data));
     return parseAnswer(JSON.parse(data));
