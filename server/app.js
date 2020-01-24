@@ -4,7 +4,7 @@ const fingerprint = require('express-fingerprint');
 const app = express ();
 app.use(express.json());
 app.use(fingerprint());
-require ('./routergs/index') (app);
+require ('./routers/index') (app);
 
 
 const PORT = process.env.PORT || 3000;
