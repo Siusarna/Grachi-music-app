@@ -1,4 +1,4 @@
-**Instructins:**
+**Instructions:**
 
 1. You are free to enter your song by: Humming, Actual Song and Lyrics.
 
