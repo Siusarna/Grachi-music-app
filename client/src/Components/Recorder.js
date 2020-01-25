@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { MDBBtn, MDBRow, MDBCol } from "mdbreact";
 import { ReactMic } from "@cleandersonlobo/react-mic";
 import { songResponse, addToHistory, pendingStatus } from "../redux/actions";
-import {connect} from 'react-redux';
-
+import { connect } from "react-redux";
 
 const getWindowDimensions = () => {
   const { innerWidth: width, innerHeight: height } = window;
@@ -11,9 +10,15 @@ const getWindowDimensions = () => {
     width,
     height
   };
-}
+};
 
-const Recorder = ({songResponse, addToHistory, apiQuery, pendingStatus, songs}) => {
+const Recorder = ({
+  songResponse,
+  addToHistory,
+  apiQuery,
+  pendingStatus,
+  songs
+}) => {
   const [isRecording, setRecording] = useState(false);
   const [Recorded, setRecorded] = useState({});
   const [isFinished, setFinished] = useState(false);
@@ -33,27 +38,31 @@ const Recorder = ({songResponse, addToHistory, apiQuery, pendingStatus, songs}) 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const onFinish = async ({target}) => {
-    if (target.tag = 'h4') {
-      target = target.parentElement
+  const onFinish = async ({ target }) => {
+    let controlElem = target;
+    if (target.children.length === 0) {
+      controlElem = target.parentElement;
     }
-    target.children[0].innerText = "Waiting";
+    controlElem.children[0].innerText = "Waiting";
     pendingStatus();
     const fd = new FormData();
     fd.append("recognize", Recorded.blob, "recognize.mp3");
-    const url = apiQuery === 'sound' ? '/api/recognize' : '/api/recognizeByHumming';
+    const url =
+      apiQuery === "sound" ? "/api/recognize" : "/api/recognizeByHumming";
     const data = await fetch(url, {
       method: "POST",
       body: fd
-    }).then(e => e.json()).catch(err => console.log(err));
+    })
+      .then(res => res.ok ? res.json() : {message: 'error'})
+      .catch(err => console.log('Something went wrong'));
     songResponse(data);
-    if(data) {
-    addToHistory(data);
+    if (data) {
+      addToHistory(data);
     }
-  }
+  };
   return (
     <>
-      <MDBCol xs={1} className="align-self-center">
+      <MDBCol xs={'1'} className="align-self-center">
         <ReactMic
           record={isRecording}
           className="sound-wave normalize-width rounded-borders"
@@ -76,7 +85,7 @@ const Recorder = ({songResponse, addToHistory, apiQuery, pendingStatus, songs}) 
           className="stable-width"
           color="elegant"
           onClick={onFinish}
-          disabled={(!isRecording && isFinished) && !songs.pending ? false : true}
+          disabled={!isRecording && isFinished && !songs.pending ? false : true}
         >
           <h4 className="mb-0">Finish</h4>
         </MDBBtn>
@@ -91,8 +100,8 @@ const mapDispatchToProps = {
   pendingStatus
 };
 
-const mapStateToProps = ({songs}) => ({
+const mapStateToProps = ({ songs }) => ({
   songs
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Recorder);

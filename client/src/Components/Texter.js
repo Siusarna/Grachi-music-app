@@ -1,21 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { MDBCol, MDBRow, MDBBtn } from "mdbreact";
 import { songResponse, addToHistory } from "../redux/actions";
 import { connect } from "react-redux";
-import {pendingStatus} from '../redux/actions'
+import { pendingStatus } from "../redux/actions";
 
 const Texter = ({ songResponse, addToHistory, pendingStatus, songs }) => {
+  const [songText, setText] = useState('')
   const onSend = async e => {
     e.preventDefault();
     pendingStatus();
     const button = e.target.lastChild.children[0];
     button.children[0].innerText = "Waiting";
-    const obj = { data: e.target.elements[0].value };
+    const obj = { data: songText };
     const data = await fetch(`/api/search`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(obj)
-    }).then(e => e.json());
+    }).then(res => res.ok ? res.json() : {message: 'error'}).catch(err => console.log('Something went wrong'));;
     songResponse(data);
     if (data) {
       addToHistory(data);
@@ -23,7 +24,7 @@ const Texter = ({ songResponse, addToHistory, pendingStatus, songs }) => {
   };
   return (
     <form onSubmit={onSend}>
-      <MDBCol md={5} className="mx-auto">
+      <MDBCol md={'5'} className="mx-auto">
         <div className="input-group">
           <div className="input-group-prepend">
             <span className="input-group-text" id="basic-addon">
@@ -33,6 +34,9 @@ const Texter = ({ songResponse, addToHistory, pendingStatus, songs }) => {
           <textarea
             className="form-control text-blacktheme"
             rows="5"
+            value={songText}
+            onChange={(e) => setText(e.target.value)}
+            required
           ></textarea>
         </div>
       </MDBCol>
@@ -50,9 +54,9 @@ const Texter = ({ songResponse, addToHistory, pendingStatus, songs }) => {
   );
 };
 
-const mapStateToProps = ({songs}) => ({
-    songs
-})
+const mapStateToProps = ({ songs }) => ({
+  songs
+});
 
 const mapDispatchToProps = {
   songResponse,

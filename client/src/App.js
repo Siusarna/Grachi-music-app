@@ -6,7 +6,6 @@ import {connect} from 'react-redux'
 
 
 const App = ({game}) => {
-  console.log(game);
   return (
     <div className="cover-full">
       {game.status ? <Game /> : <Intro />}
