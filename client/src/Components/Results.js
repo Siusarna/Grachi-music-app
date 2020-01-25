@@ -4,7 +4,7 @@ import { MDBRow, MDBCol, MDBBtn, MDBCard, MDBCardHeader, MDBCardBody, MDBCardTit
 import {startOver} from '../redux/actions'
 
 const Results = ({ songHistory, player, server, startOver }) => {
-  songHistory = songHistory.flat();
+  songHistory = songHistory.flat().filter(elem => elem.title);
   return (
     <div>
       <MDBRow className="row d-flex justify-content-center text-center mt-10">
