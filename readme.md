@@ -1,4 +1,4 @@
-If you want start your app local, please do this step:
+If you want start our app local, please do this step:
 1. Create directory (mkdir TEST);
 2. git clone https://github.com/Siusarna/Grachi-music-app;
 3. cd Grachi-music-app;
@@ -7,3 +7,5 @@ If you want start your app local, please do this step:
 6. npm i (and wait for all the modules for client to be installed);
 7. cd ..
 8. npm run devStart (if all goes well, your browser will open a page with our application);
+
+Our app: https://grachi-music-app.herokuapp.com/
