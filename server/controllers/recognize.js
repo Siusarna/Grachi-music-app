@@ -6,7 +6,7 @@ const makeRequestToAudd = (filename, uri) => {
     const data = {
         'file': fs.createReadStream (pathToFile),
         'return': 'deezer',
-        'api_token': 'bbd13e6b21b33af43cc773448b66a87b'
+        'api_token': '6318606a4ef2c11a6b5ab06cabdf793e'
     };
 
     const options = {
