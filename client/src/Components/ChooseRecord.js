@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import Recorder from "./Recorder";
 import Texter from "./Texter";
-import { MDBContainer, MDBRow, MDBCol, MDBBtn } from "mdbreact";
+import { MDBRow, MDBCol, MDBBtn } from "mdbreact";
 
 const ChooseRecord = () => {
   const [activeButton, setActive] = useState("");
   const Buttons = ["humming", "sound", "lyrics"];
   const handleClick = e => {
-    console.log(e.target.innerText);
-    setActive(e.target.innerText.toLowerCase());
+    let value;
+    if(e.target.tag !== 'button') {
+      value = e.target.parentElement.children[0].innerText.toLowerCase()
+    }
+    setActive(value);
   };
   return (
     <>

@@ -3,34 +3,26 @@ import { MDBRow, MDBCol, MDBBtn, MDBCard, MDBCardHeader, MDBCardBody, MDBCardTit
 import { guessed, giveChance, finish, end, guessEnd } from "../redux/actions";
 import { connect } from "react-redux";
 const Guess = ({ data, guessed, giveChance, finish, end, guessEnd, round }) => {
-  // const arr = [
-  //   {
-  //     preview: `https://cdns-preview-1.dzcdn.net/stream/c-14c52420359ed8eb8f5257a8df72134a-3.mp3`,
-  //     artist: "O.A.R.",
-  //     title: "Miss You All The Time"
-  //   }
-  // ];
   const Buttons = [
     { name: "Guessed!", func: guessed },
     { name: "Give a chance", func: giveChance },
     { name: "Finish game", func: finish }
   ];
-  console.log(data);
   return (
     <>
       <MDBRow className="row d-flex justify-content-center text-center mt-10">
-        <MDBCol md>
+        <MDBCol>
           <h1>
-            {data && !data.message && data.length !== 0
+            {data && !data.message && data.length !== 0 && Array.isArray(data)
               ? "Are there something familliar?"
               : "Sorry, nothing found"}
           </h1>
         </MDBCol>
       </MDBRow>
-      {data && !data.message
-        ? data.map(elem => (
-          <MDBRow className="d-flex justify-content-center">
-            <MDBCol lg={5} className="mt-3">
+      {data && !data.message && Array.isArray(data)
+        ? data.map((elem, i) => (
+          <MDBRow className="d-flex justify-content-center" key={i}>
+            <MDBCol lg={'5'} className="mt-3">
             <MDBCard
               className="text-center"
             >
@@ -55,9 +47,10 @@ const Guess = ({ data, guessed, giveChance, finish, end, guessEnd, round }) => {
           ))
         : ""}
       <MDBRow className="justify-content-center mt-4">
-        {data && !data.message && data.length !== 0
+        {data && !data.message && data.length !== 0 && Array.isArray(data)
           ? Buttons.map(elem => (
               <MDBBtn
+              key={elem.name}
                 className="stable-width"
                 color="elegant"
                 disabled={
@@ -73,6 +66,7 @@ const Guess = ({ data, guessed, giveChance, finish, end, guessEnd, round }) => {
             ))
           : Buttons.filter((elem, i) => i !== 0).map(elem => (
               <MDBBtn
+              key={elem.name}
                 className="stable-width"
                 color="elegant"
                 disabled={

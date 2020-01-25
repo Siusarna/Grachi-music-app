@@ -5,11 +5,10 @@ import {startOver} from '../redux/actions'
 
 const Results = ({ songHistory, player, server, startOver }) => {
   songHistory = songHistory.flat();
-  console.log(player, server, player === server)
   return (
     <div>
       <MDBRow className="row d-flex justify-content-center text-center mt-10">
-        <MDBCol md>
+        <MDBCol>
           <h1>
             {player === server
               ? `Oh, it's a draw!`
@@ -20,16 +19,16 @@ const Results = ({ songHistory, player, server, startOver }) => {
         </MDBCol>
       </MDBRow>
       <MDBRow className="row d-flex justify-content-center text-center mt-2">
-        <MDBCol md>
+        <MDBCol>
           <h2>
             {songHistory.length !== 0 ? 'Here is your song history:' : 'But you got this far without server guesses?'}
           </h2>
         </MDBCol>
       </MDBRow>
       {songHistory
-        ? songHistory.map(elem => (
-          <MDBRow className="d-flex justify-content-center">
-            <MDBCol lg={5} className="mt-3">
+        ? songHistory.map((elem, i) => (
+          <MDBRow className="d-flex justify-content-center" key={i}>
+            <MDBCol lg={'5'} className="mt-3">
             <MDBCard
               className="text-center"
             >

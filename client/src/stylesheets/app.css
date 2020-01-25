@@ -12,7 +12,6 @@ html, body {
 }
 
 .to-normal-size {
-    width: 55rem;
     background-color: #383838 !important;
     color: #cad2cf;
     transition: box-shadow 0.50s ease-in-out,
